@@ -23,7 +23,7 @@ const pathName = usePathname()
         <div className="bg-[#1E1E22] rounded-md p-2 h-full mb-8 sm:mb-0 sm:w-[200px] w-auto">
             <ul>
                {menuOptions.map((option) => (
-                <Link href={option.label}><li key={option.id} className={`capitalize cursor-pointer mb-2 p-2 ${pathName === '/' + option.label? 'text-[#15D47B]': ''}`} >{option.label}</li></Link>
+                <Link href={option.label} key={option.id} ><li className={`capitalize cursor-pointer mb-2 p-2 ${pathName === '/' + option.label? 'text-[#15D47B]': ''}`} >{option.label}</li></Link>
                ))}
             </ul>
         </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ISearchInput{
-    searchString: string
+    getString: (text: string) => void;
 }
 
-const SearchInput: React.FC<ISearchInput> = () => {
+const SearchInput: React.FC<ISearchInput> = ({getString}) => {
   const [searchText, setSearchText] = useState("");
 
   const handleSearchInput = (text: string) => {
@@ -14,6 +14,10 @@ const SearchInput: React.FC<ISearchInput> = () => {
       setSearchText(text);
     }, 1000);
   };
+
+useEffect(()=>{
+  getString(searchText)
+},[searchText])
 
   return (
     <div className="rounded-md w-full sm:w-auto">

@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaFileDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import "./style.css";
+import { ClientNumberSearchContext } from "../wrapperPage";
 
 const invoices = [
   {
@@ -58,6 +59,9 @@ const list = {
 
 const Faturas = () => {
   const [vibratingId, setVibratingId] = useState("");
+
+  const searchInput = useContext(ClientNumberSearchContext)
+
 
   return (
     <motion.div
