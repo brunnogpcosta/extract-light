@@ -1,92 +1,85 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaFileDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import "./style.css";
 import { ClientNumberSearchContext } from "../wrapperPage";
+import getInvoices from "../services";
+import EmptyState from "../components/emptyState";
 
-const invoices = [
-  {
-    id: "1",
-    period: "JUN/2023",
-  },
-  {
-    id: "2",
-    period: "MAI/2023",
-  },
-  {
-    id: "3",
-    period: "DEX/2023",
-  },
-  {
-    id: "4",
-    period: "NOV/2023",
-  },
-  {
-    id: "5",
-    period: "NOV/2023",
-  },
-  {
-    id: "6",
-    period: "NOV/2023",
-  },
-  {
-    id: "7",
-    period: "NOV/2023",
-  },
-  {
-    id: "8",
-    period: "NOV/2023",
-  },
-  {
-    id: "9",
-    period: "NOV/2023",
-  },
-];
+interface IInvoice {
+  id: string;
+  clientNumber: string;
+  period: string;
+  eletricEnergyQty: number;
+  eletricEnergyAmount: number;
+  eletricEnergyWithoutICMSQty: number;
+  eletricEnergyWithoutICMSAmount: number;
+  compensedEletricEnergyQty: number;
+  compensedEletricEnergyAmount: number;
+  publicContribute: number;
+}
 
 const list = {
-    visible: { opacity: 1 },
-    hidden: { opacity: 0 },
-  }
-  
-  const item = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: -100 },
-  }
-  
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
+const item = {
+  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: -100 },
+};
 
 const Faturas = () => {
+  const [invoices, setInvoices] = useState<IInvoice[]>([]);
   const [vibratingId, setVibratingId] = useState("");
 
-  const searchInput = useContext(ClientNumberSearchContext)
+  const searchInput = useContext(ClientNumberSearchContext);
 
+  useEffect(() => {
+    console.log("entrei");
+    getInvoices(searchInput)
+      .then((response) => {
+        setInvoices(response.data.data);
+      })
+      .catch((error) => {
+        // Lida com o erro aqui
+      });
+  }, [searchInput]);
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={list}
-      className="w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8"
-    >
-      {invoices.map((inv) => (
+    <>
+      {invoices.length ? (
         <motion.div
-          variants={item}
-          key={inv.id}
-          className="cursor-pointer bg-[#1E1E22] min-w-[200px] h-[200px] sm:mx-8 mb-8 sm:mb-0 rounded-md p-4 flex flex-col items-center justify-center"
-          onMouseEnter={() => setVibratingId(inv.id)}
+          initial="hidden"
+          animate="visible"
+          variants={list}
+          className="w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8"
         >
-          <FaFileDownload
-            size={40}
-            className={`text-[#15D47B] mb-4 ${
-              vibratingId === inv.id ? "vibrate" : ""
-            }`}
-          />
-          <p>{inv.period}</p>
+          {invoices.map((inv) => (
+            <motion.div
+              variants={item}
+              key={inv.id}
+              className="cursor-pointer bg-[#1E1E22] min-w-[200px] h-[200px] sm:mx-8 mb-8 sm:mb-0 rounded-md p-4 flex flex-col items-center justify-center"
+              onMouseEnter={() => setVibratingId(inv.id)}
+            >
+              <FaFileDownload
+                size={40}
+                className={`text-[#15D47B] mb-4 ${
+                  vibratingId === inv.id ? "vibrate" : ""
+                }`}
+              />
+              <p>{inv.period}</p>
+              <p>{inv.clientNumber}</p>
+            </motion.div>
+          ))}
         </motion.div>
-      ))}
-    </motion.div>
+      ) : (
+        <EmptyState />
+      )}
+    </>
   );
 };
 
