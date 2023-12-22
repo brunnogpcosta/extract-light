@@ -52,11 +52,6 @@ const Faturas = () => {
         console.log(error);
       });
   }, [searchInput]);
-
-  const handleDownload = (fileName: string) => {
-    window.open(getDownloadInvoice(fileName), '_blank');
-  };
-  
   
   return (
     <>
@@ -70,22 +65,22 @@ const Faturas = () => {
           className="w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8"
         >
           {invoices.map((inv) => (
-            <motion.div
-              onClick={() => handleDownload(inv.fileName)}
-              variants={item}
-              key={inv.id}
-              className="cursor-pointer bg-[#1E1E22] min-w-[200px] h-[200px] sm:mx-8 mb-8 sm:mb-0 rounded-md p-4 flex flex-col items-center justify-center"
-              onMouseEnter={() => setVibratingId(inv.id)}
-            >
-              <FaFileDownload
-                size={40}
-                className={`text-[#15D47B] mb-4 ${
-                  vibratingId === inv.id ? "vibrate" : ""
-                }`}
-              />
-              <p>{inv.period}</p>
-              <p>{inv.clientNumber}</p>
-            </motion.div>
+            <a href={getDownloadInvoice(inv.fileName)} target="_self" key={inv.id}>
+              <motion.div
+                variants={item}
+                className="cursor-pointer bg-[#1E1E22] min-w-[200px] h-[200px] sm:mx-8 mb-8 sm:mb-0 rounded-md p-4 flex flex-col items-center justify-center"
+                onMouseEnter={() => setVibratingId(inv.id)}
+              >
+                <FaFileDownload
+                  size={40}
+                  className={`text-[#15D47B] mb-4 ${
+                    vibratingId === inv.id ? "vibrate" : ""
+                  }`}
+                />
+                <p>{inv.period}</p>
+                <p>{inv.clientNumber}</p>
+              </motion.div>
+            </a>
           ))}
         </motion.div>
       ) : (
