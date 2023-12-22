@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaEraser } from "react-icons/fa";
 
 interface ISearchInput {
@@ -29,7 +29,7 @@ const SearchInput: React.FC<ISearchInput> = ({ getString }) => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex sm:w-auto w-full ">
       {enteredText && (
         <div className="flex items-center bg-[#3C3C43] p-2 rounded-md mr-4">
           <p className="mr-2 px-2">{enteredText}</p>
@@ -45,7 +45,7 @@ const SearchInput: React.FC<ISearchInput> = ({ getString }) => {
           onKeyPress={handleKeyPress}
           value={searchText}
           placeholder="Nº do cliente"
-          className="border-0 bg-[#3C3C43] p-2 rounded-md text-[#FFFFFF] w-full"
+          className="border-0 bg-[#3C3C43] p-3 rounded-md text-[#FFFFFF] w-full"
         />
       </div>
     </div>
