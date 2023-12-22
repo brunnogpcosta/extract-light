@@ -22,7 +22,6 @@ interface IInvoice {
 
 interface IWrapperPage {
   pages: React.ReactNode;
-  invoices: IInvoice[];
 }
 
 
