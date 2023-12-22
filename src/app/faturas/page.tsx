@@ -5,24 +5,10 @@ import { FaFileDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import "./style.css";
-import { ClientNumberSearchContext } from "../wrapperPage";
+import { InvoicesContext } from "../wrapperPage";
 import { getDownloadInvoice, getInvoices } from "../services";
 import EmptyState from "../components/emptyState";
 import Loading from "../components/loading";
-
-interface IInvoice {
-  id: string;
-  fileName: string;
-  clientNumber: string;
-  period: string;
-  eletricEnergyQty: number;
-  eletricEnergyAmount: number;
-  eletricEnergyWithoutICMSQty: number;
-  eletricEnergyWithoutICMSAmount: number;
-  compensedEletricEnergyQty: number;
-  compensedEletricEnergyAmount: number;
-  publicContribute: number;
-}
 
 const list = {
   visible: { opacity: 1 },
@@ -35,23 +21,11 @@ const item = {
 };
 
 const Faturas = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [invoices, setInvoices] = useState<IInvoice[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [vibratingId, setVibratingId] = useState("");
 
-  const searchInput = useContext(ClientNumberSearchContext);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getInvoices(searchInput)
-      .then((response: any) => {
-        setInvoices(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  }, [searchInput]);
+  const invoices = useContext(InvoicesContext);
   
   return (
     <>

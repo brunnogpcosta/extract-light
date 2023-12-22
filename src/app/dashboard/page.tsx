@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import EnergyChart from "../components/energyChart";
 import MoneyChart from "../components/moneyChart";
 import { getInvoices } from "../services";
-import { ClientNumberSearchContext } from "../wrapperPage";
+import { InvoicesContext } from "../wrapperPage";
 
 interface IInvoice {
   id: string;
@@ -20,9 +20,9 @@ interface IInvoice {
   publicContribute: number;
 }
 
+
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [invoices, setInvoices] = useState<IInvoice[]>([]);
   const [invoicesFirstChart, setInvoicesFirstChart] = useState<IInvoice[]>([]);
   const [chartProperties, setChartProperties] = useState({
     sumEnergyQty: 0,
@@ -31,23 +31,15 @@ const Dashboard = () => {
     withGDAmount: 0,
   });
 
-  const searchInput = useContext(ClientNumberSearchContext);
+  const invoices = useContext(InvoicesContext);
 
   useEffect(() => {
     setIsLoading(true);
-    getInvoices(searchInput)
-      .then((response: any) => {
-        setInvoices(response.data.data);
-        handleInvoices(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  }, [searchInput]);
+    if(invoices) handleInvoices();
+  }, [invoices]);
 
-  const handleInvoices = (data: any) => {
-    const sumObject = data.reduce(
+  const handleInvoices = () => {
+    const sumObject = invoices.reduce(
       (sum: any, currentObj: any) => {
         sum.eletricEnergyQty += currentObj.eletricEnergyQty;
         sum.eletricEnergyAmount += currentObj.eletricEnergyAmount;
@@ -76,7 +68,7 @@ const Dashboard = () => {
       },
     );
 
-    const groupedByPeriod = data.reduce(
+    const groupedByPeriod = invoices.reduce(
       (accumulator: any, currentValue: any) => {
         const period = currentValue.period;
 
@@ -134,6 +126,8 @@ const Dashboard = () => {
         sumObject.compensedEletricEnergyAmount *
         sumObject.compensedEletricEnergyQty,
     });
+
+    setIsLoading(false);
   };
 
   const labels = invoicesFirstChart.map((iv) => iv.period);
