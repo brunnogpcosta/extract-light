@@ -32,7 +32,7 @@ const SearchInput: React.FC<ISearchInput> = ({ getString }) => {
     <div className="flex">
       {enteredText && (
         <div className="flex items-center bg-[#3C3C43] p-2 rounded-md mr-4">
-          <p className="mr-2 px-2">{searchText}</p>
+          <p className="mr-2 px-2">{enteredText}</p>
           <span className="cursor-pointer" onClick={clearSearch}>
             <FaEraser />
           </span>

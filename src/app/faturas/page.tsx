@@ -6,11 +6,13 @@ import { motion } from "framer-motion";
 
 import "./style.css";
 import { ClientNumberSearchContext } from "../wrapperPage";
-import getInvoices from "../services";
+import { getDownloadInvoice, getInvoices } from "../services";
 import EmptyState from "../components/emptyState";
+import Loading from "../components/loading";
 
 interface IInvoice {
   id: string;
+  fileName: string;
   clientNumber: string;
   period: string;
   eletricEnergyQty: number;
@@ -33,25 +35,34 @@ const item = {
 };
 
 const Faturas = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [invoices, setInvoices] = useState<IInvoice[]>([]);
   const [vibratingId, setVibratingId] = useState("");
 
   const searchInput = useContext(ClientNumberSearchContext);
 
   useEffect(() => {
-    console.log("entrei");
+    setIsLoading(true);
     getInvoices(searchInput)
-      .then((response) => {
+      .then((response: any) => {
         setInvoices(response.data.data);
+        setIsLoading(false);
       })
-      .catch((error) => {
-        // Lida com o erro aqui
+      .catch((error: any) => {
+        console.log(error);
       });
   }, [searchInput]);
 
+  const handleDownload = (fileName: string) => {
+    window.open(getDownloadInvoice(fileName), '_blank');
+  };
+  
+  
   return (
     <>
-      {invoices.length ? (
+      {isLoading ? (
+        <Loading />
+      ) : invoices.length ? (
         <motion.div
           initial="hidden"
           animate="visible"
@@ -60,6 +71,7 @@ const Faturas = () => {
         >
           {invoices.map((inv) => (
             <motion.div
+              onClick={() => handleDownload(inv.fileName)}
               variants={item}
               key={inv.id}
               className="cursor-pointer bg-[#1E1E22] min-w-[200px] h-[200px] sm:mx-8 mb-8 sm:mb-0 rounded-md p-4 flex flex-col items-center justify-center"
