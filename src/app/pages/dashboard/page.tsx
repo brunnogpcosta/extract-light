@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
-import EnergyChart from "../components/energyChart";
-import MoneyChart from "../components/moneyChart";
-import { getInvoices } from "../services";
-import { InvoicesContext } from "../wrapperPage";
+import EnergyChart from "../../components/energyChart";
+import MoneyChart from "../../components/moneyChart";
+import { InvoicesContext } from "../../wrapperPage";
 
 interface IInvoice {
   id: string;

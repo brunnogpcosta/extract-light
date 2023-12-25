@@ -5,10 +5,10 @@ import { FaFileDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import "./style.css";
-import { InvoicesContext } from "../wrapperPage";
-import { getDownloadInvoice, getInvoices } from "../services";
-import EmptyState from "../components/emptyState";
-import Loading from "../components/loading";
+import { InvoicesContext } from "../../wrapperPage";
+import { getDownloadInvoice } from "../../services";
+import EmptyState from "../../components/emptyState";
+import Loading from "../../components/loading";
 
 const list = {
   visible: { opacity: 1 },
