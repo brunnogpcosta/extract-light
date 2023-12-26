@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import Menu from './components/menu'
-
 export default function Home() {
   return (
     <div className="ml-8 p-8 border-[#15D47B] border-2 rounded-md w-full justify-center items-center flex">
