@@ -8,9 +8,9 @@ interface IHeader{
 const Header: React.FC<IHeader> = ({ setSearchInput }) => {
     return(
         <div className="flex justify-between mb-8 items-center sm:flex-row flex-col">
-            <h1 className="sm:mb-0 mb-4 font-bold text-2xl"><span className="text-[#15D47B]">Extract</span><span className="font-normal">Light</span></h1>
+            <h1 className="sm:mb-0 mb-4 font-bold text-2xl"><span className="text-[#15D47B]" id="extract-title">Extract</span><span className="font-normal">Light</span></h1>
 
-            <SearchInput getString={(text) => setSearchInput(text)}/>
+            <SearchInput getString={(text) => setSearchInput(text)} data-testid="search-input"/>
         </div>
     )
 }
